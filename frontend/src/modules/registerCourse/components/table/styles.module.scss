@@ -1,0 +1,17 @@
+.title {
+    display: flex;
+    align-items: center;
+    padding-block: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #0c6fbe;
+
+    &::before {
+        content: '';
+        display: inline-block;
+        margin-right: 10px;
+        width: 3px;
+        height: 24px;
+        background: #eb2e51;
+    }
+}

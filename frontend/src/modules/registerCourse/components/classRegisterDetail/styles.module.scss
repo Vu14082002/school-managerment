@@ -1,0 +1,50 @@
+.text-blue-bold {
+    color: #003f65;
+}
+
+.duplicate-btn-wrap {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 5px;
+    margin-top: 10px;
+}
+
+.duplicate-btn {
+    padding: 6px 12px;
+    color: #fff;
+    background-color: #ec9e0f;
+    font-size: 14px;
+}
+
+.class-detail {
+    color: #0c6fbe;
+    font-size: 14px;
+    cursor: pointer;
+
+    &__info {
+        text-align: left;
+    }
+}
+
+.no-detail td {
+    background-color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    color: #667580;
+    border-right: 1px solid rgba(99, 107, 116, 0.2);
+}
+
+.register-btn-wrap {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.register-btn {
+    width: 210px;
+    height: 44px;
+    background-color: #0190f3;
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+}

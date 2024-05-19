@@ -1,0 +1,36 @@
+.container {
+    border-radius: 4px;
+    background-color: #fff;
+    padding: 10px;
+
+    .title {
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 1;
+        color: var(--primary-color);
+        border-bottom: 1px solid #eee;
+        padding-block: 10px;
+    }
+
+    .form {
+        margin-top: 10px;
+        gap: 16px;
+    }
+
+    .semester {
+        min-width: 350px;
+    }
+}
+
+.course-detail {
+    margin-top: 36px;
+    gap: 15px;
+}
+
+.classes {
+    max-height: 370px;
+}
+
+.registered-classes {
+    margin-top: 36px;
+}

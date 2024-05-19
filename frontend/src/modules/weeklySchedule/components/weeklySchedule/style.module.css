@@ -1,0 +1,150 @@
+.weekly-schedule-wrapper{
+    min-height: 100vh;
+    padding-top: 70px;
+    background-color: #E7ECF0;
+}
+.weekly-schedule-container{
+    width: 1180px;
+}
+.action-btn{
+    background-color: #1da1f2;
+    border-radius: 4px;
+
+}
+.action-btn:hover{
+    background-color: #ccc;
+    color: #1da1f2;
+    transition: 0.3s;
+}
+.schedule-table{
+    border: 1px solid #ddd;
+    text-align: center;
+    width: 100%;
+}
+.schedule-table-header{
+    background: #f3f7f9;
+    border-bottom: 2px solid #cad6d8;
+    color: #1da1f2;
+    white-space: nowrap;
+}
+.schedule-table-header-cell-first{
+    width: 60px;
+
+}
+.schedule-table-header-cell{
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-top: 0;
+    border-left: 0;
+    border-bottom: 0;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+
+}
+.schedule-table-header-cell:last-child{
+    border-right: 0;
+}
+.schedule-table-body{
+    background: url("../../assets/images/transparent-pattern-square-4.png") repeat;
+}
+.schedule-table-row{
+    min-height: 150px;
+    border-bottom: 1px solid #ddd;
+
+}
+.schedule-table-cell-first{
+    width: 60px;
+    color: #444;
+    background-color: #ffffce;
+    font-weight: 600;
+}
+.schedule-table-cell-first, .schedule-table-cell{
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-top: 0;
+    border-left: 0;
+    border-bottom: 0;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+.schedule-table-cell:last-child{
+    border-right: 0;
+}
+.course-item{
+    padding: 4px 6px;   
+    margin: 4px 6px;
+    border-radius: 4px;
+    text-align: left;
+}
+.course-name{
+    font-weight: 600;
+    font-size: 15px;
+    color: #003763;
+}
+.course-info{
+    font-size: 13px;
+
+}
+.theory-course{
+    background-color: #e7ecf0;
+    border: 1px solid #c9d0db
+}
+.practice-course{
+    background-color: #71cb35;
+    border-color: #c9d0db;
+}
+.online-course{
+    background-color: #92d6ff;
+    border-color: #1da1f2;
+}
+.exam-course{
+    background-color: #fdff9a;
+    border: 1px solid #edaf00;
+}
+.badge-theory-course{
+    width: 40px;
+    height: 15px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: text-top;
+    background: #e7ecf0;
+}
+
+.badge-practice-course{
+    width: 40px;
+    height: 15px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: text-top;
+    background: #71cb35;
+}
+
+.badge-online-course{
+    width: 40px;
+    height: 15px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: text-top;
+    background: #92d6ff;
+}
+
+.badge-exam-course{
+    width: 40px;
+    height: 15px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: text-top;
+    background: #fdff9a;
+}
