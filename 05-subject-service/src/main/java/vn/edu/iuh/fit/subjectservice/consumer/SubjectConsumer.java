@@ -2,6 +2,7 @@ package vn.edu.iuh.fit.subjectservice.consumer;
 
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -40,6 +41,7 @@ public class SubjectConsumer {
         giangVienRepository.save(giangVien);
         LOGGER.info(String.format("Received student: %s", giangVienEvent.getUsername()));
     }
+
 
 }
 

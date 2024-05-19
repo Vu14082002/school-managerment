@@ -16,9 +16,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "chuyennganh")
-@Embeddable
 public class ChuyenNganh {
-
     @EmbeddedId
     private ChuyenNganhKey chuyenNganhKey;
     private String tenChuyenNganh;

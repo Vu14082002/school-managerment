@@ -33,6 +33,4 @@ public class SinhVien {
 
     @ManyToMany
     private Set<HocPhan> danhSachMonHocDangKy;
-
-
 }

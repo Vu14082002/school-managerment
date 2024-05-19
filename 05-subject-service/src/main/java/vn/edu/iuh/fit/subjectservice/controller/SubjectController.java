@@ -1,44 +1,103 @@
-//package vn.edu.iuh.fit.studentservice.controller;
-//
-//
-//import lombok.AllArgsConstructor;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.web.bind.annotation.*;
-//
-//import vn.edu.iuh.fit.studentservice.convert.ObjectConverter;
-//import vn.edu.iuh.fit.studentservice.dto.SinhVienDto;
-//import vn.edu.iuh.fit.studentservice.dto.SinhVienResponse;
-//import vn.edu.iuh.fit.studentservice.event.SinhVienAuthEvent;
-//import vn.edu.iuh.fit.studentservice.publisher.SinhVienProducer;
-//import vn.edu.iuh.fit.studentservice.services.SinhVienService;
-//
-//@RestController
-//@RequestMapping("${spring.api.version}")
-//@AllArgsConstructor
-//public class SubjectController {
-//    private SinhVienProducer sinhVienProducer;
-//    private SinhVienService sinhVienService;
-//    private ObjectConverter objectConverter;
-//
-//
-//    @GetMapping("/health")
-//    public ResponseEntity<String> health() {
-//        return ResponseEntity.ok("Student service is healthy");
-//    }
-//
-//    @PostMapping
-//    public ResponseEntity<SinhVienResponse> createOrder(@RequestBody SinhVienDto sinhVienDto) {
-//        String passwordDefault = "1111";
-//        try {
-//            SinhVien sinhVien = sinhVienService.save(objectConverter.convertToSinhVien(sinhVienDto));
-//            SinhVienAuthEvent sinhVienEvent = objectConverter.convertToSinhVienEvent(sinhVien.getMssv(), passwordDefault);
-//            sinhVienProducer.sendToAuthService(sinhVienEvent);
-//            SinhVienResponse sinhVienResponse = new SinhVienResponse(HttpStatus.CREATED.value(), "Success", sinhVien);
-//            return ResponseEntity.status(HttpStatus.CREATED).body(sinhVienResponse);
-//        } catch (Exception e) {
-//            SinhVienResponse sinhVienResponse = new SinhVienResponse(HttpStatus.CREATED.value(), "Success", null);
-//            return ResponseEntity.badRequest().body(sinhVienResponse);
-//        }
-//    }
-//}
+package vn.edu.iuh.fit.subjectservice.controller;
+
+
+
+
+import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import vn.edu.iuh.fit.subjectservice.dto.*;
+import vn.edu.iuh.fit.subjectservice.enums.HocKyEnum;
+import vn.edu.iuh.fit.subjectservice.keys.HocPhanKey;
+import vn.edu.iuh.fit.subjectservice.keys.LichDangKyHocPhanKey;
+import vn.edu.iuh.fit.subjectservice.repositories.HocPhanRepository;
+import vn.edu.iuh.fit.subjectservice.services.HocPhanServices;
+import vn.edu.iuh.fit.subjectservice.services.LichDangKyHocPhanServices;
+import vn.edu.iuh.fit.subjectservice.services.LopHocPhanChoDangKyService;
+
+import java.util.List;
+
+
+@RestController
+@RequestMapping("${spring.api.version}")
+@AllArgsConstructor
+public class SubjectController {
+
+    private LichDangKyHocPhanServices lichDangKyHocPhanServices;
+    private HocPhanServices hocPhanServices;
+    private DataResponse dataResponse;
+    private LopHocPhanChoDangKyService lopHocPhanChoDangKyService;
+    @GetMapping("/health")
+    public ResponseEntity<String> health() {
+        return ResponseEntity.ok("Subject service is healthy");
+    }
+
+
+    @GetMapping("/dotdangky")
+    public ResponseEntity<DataResponse> dotdangky() {
+        try {
+            List<LichDangKyHocPhanDTO> allLichDangKyHocPhan = lichDangKyHocPhanServices.getAllLichDangKyHocPhan();
+            dataResponse.setData(allLichDangKyHocPhan);
+            dataResponse.setMessage("Success");
+            dataResponse.setCode(200);
+            return ResponseEntity.ok(dataResponse);
+        } catch (Exception e) {
+            dataResponse.setData(null);
+            dataResponse.setMessage("Error");
+            dataResponse.setCode(500);
+            return ResponseEntity.ok(dataResponse);
+        }
+    }
+
+    @GetMapping("/danhsachhocphan")
+    public ResponseEntity<DataResponse> danhsachhocphan(@RequestBody HocPhanTheoKyDTO hocPhanTheoKyDTO) {
+        try {
+            List<HocPhanDTO> hocPhanDTOS = hocPhanServices.danhSachHoocPhanTheoKyVaChuyeNganh(hocPhanTheoKyDTO.getNamHoc(),
+                    hocPhanTheoKyDTO.getHocKy(),hocPhanTheoKyDTO.getChuyenNganh(),hocPhanTheoKyDTO.getMssv());
+            dataResponse.setData(hocPhanDTOS);
+            dataResponse.setMessage("Success");
+            dataResponse.setCode(200);
+            return ResponseEntity.ok(dataResponse);
+        } catch (Exception e) {
+            dataResponse.setData(null);
+            dataResponse.setMessage("Error");
+            dataResponse.setCode(500);
+            return ResponseEntity.ok(dataResponse);
+        }
+    }
+    @GetMapping("/lopphanphanchodangky")
+    public ResponseEntity<DataResponse> lopphanphanchodangky(@RequestBody LopHPChoDKRequest lopHPChoDKRequest) {
+        try {
+            List<LopHocPhanChoDangKyDTO> lopHocPhanChoDangKyDTOS =
+                    lopHocPhanChoDangKyService.lopPhanChoChoDangKyTheoHocPhan(lopHPChoDKRequest.getMaHocPhan());
+            dataResponse.setData(lopHocPhanChoDangKyDTOS);
+            dataResponse.setMessage("Success");
+            dataResponse.setCode(200);
+            return ResponseEntity.ok(dataResponse);
+        } catch (Exception e) {
+            dataResponse.setData(null);
+            dataResponse.setMessage("Error");
+            dataResponse.setCode(500);
+            return ResponseEntity.ok(dataResponse);
+        }
+    }
+    @GetMapping("/chitietlophocphan")
+    public ResponseEntity<DataResponse> chiTietLopHocPhan(@RequestBody ChiTietLopHocPhanRequest  chiTietLopHocPhan) {
+        try {
+
+            dataResponse.setData(null);
+            dataResponse.setMessage("Success");
+            dataResponse.setCode(200);
+            return ResponseEntity.ok(dataResponse);
+        } catch (Exception e) {
+            dataResponse.setData(null);
+            dataResponse.setMessage("Error");
+            dataResponse.setCode(500);
+            return ResponseEntity.ok(dataResponse);
+        }
+    }
+
+}

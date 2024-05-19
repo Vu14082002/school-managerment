@@ -38,4 +38,8 @@ public class MonHoc {
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private Set<ChuyenNganh> chuyenNganh = new HashSet<>();
+
+    public Set<MonHoc> getMonHocTruoc() {
+        return monHocTruoc;
+    }
 }
