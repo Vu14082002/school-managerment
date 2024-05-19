@@ -28,3 +28,8 @@
 
 ![Screenshot 2024-05-19 215717](https://github.com/Vu14082002/school-managerment/assets/70377398/a0501619-fbf7-407f-91ff-aacf3660423a)
 
+## 05-subject-service - ERD
+
+![image](https://github.com/Vu14082002/school-managerment/assets/70377398/aa07fc11-b500-4ace-88af-e90e263e2158)
+
+
