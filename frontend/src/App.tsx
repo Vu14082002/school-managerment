@@ -1,6 +1,7 @@
 import { ExoticComponent, ReactNode } from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { Fragment } from 'react/jsx-runtime';
+import Authenticated from './components/authenticated';
 import { privateRoutes, publicRoutes } from './routes';
 
 function App() {
@@ -27,9 +28,11 @@ function App() {
                             key={route.path}
                             path={route.path}
                             element={
-                                <Layout>
-                                    <Element />
-                                </Layout>
+                                <Authenticated>
+                                    <Layout>
+                                        <Element />
+                                    </Layout>
+                                </Authenticated>
                             }
                         />
                     );

@@ -1,16 +1,10 @@
 package vn.edu.iuh.fit.subjectservice.controller;
 
 
-
-
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.edu.iuh.fit.subjectservice.dto.*;
-import vn.edu.iuh.fit.subjectservice.enums.HocKyEnum;
-import vn.edu.iuh.fit.subjectservice.keys.HocPhanKey;
-import vn.edu.iuh.fit.subjectservice.keys.LichDangKyHocPhanKey;
-import vn.edu.iuh.fit.subjectservice.repositories.HocPhanRepository;
 import vn.edu.iuh.fit.subjectservice.services.ChiTietLopHocPhanService;
 import vn.edu.iuh.fit.subjectservice.services.HocPhanServices;
 import vn.edu.iuh.fit.subjectservice.services.LichDangKyHocPhanServices;
@@ -21,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("${spring.api.version}")
+@CrossOrigin(origins = "http://localhost:5173")
 @AllArgsConstructor
 public class SubjectController {
 
@@ -51,8 +46,13 @@ public class SubjectController {
         }
     }
 
+<<<<<<< HEAD
     @PostMapping("/DangKyHocPhan/DotDangKy/DanhSachHocPhan")
     public ResponseEntity<DataResponse> danhsachhocphan(@RequestBody HocPhanTheoKyDTO hocPhanTheoKyDTO) {
+=======
+    @GetMapping("/DangKyHocPhan/DotDangKy/DanhSachHocPhan")
+    public ResponseEntity<DataResponse> danhsachhocphan(@ModelAttribute HocPhanTheoKyDTO hocPhanTheoKyDTO) {
+>>>>>>> dac084a4e40c8a593d2412d44454ca747cfa79fa
         try {
             List<HocPhanDTO> hocPhanDTOS = hocPhanServices.danhSachHoocPhanTheoKyVaChuyeNganh(hocPhanTheoKyDTO.getNamHoc(),
                     hocPhanTheoKyDTO.getHocKy(),hocPhanTheoKyDTO.getChuyenNganh(),hocPhanTheoKyDTO.getMssv());
@@ -67,8 +67,13 @@ public class SubjectController {
             return ResponseEntity.ok(dataResponse);
         }
     }
+<<<<<<< HEAD
     @PostMapping("/DangKyHocPhan/DotDangKy/DanhSachHocPhan/LopHocPhanChoDangKy")
     public ResponseEntity<DataResponse> lopphanphanchodangky(@RequestBody LopHPChoDKRequest lopHPChoDKRequest) {
+=======
+    @GetMapping("/DangKyHocPhan/DotDangKy/DanhSachHocPhan/LopHocPhanChoDangKy")
+    public ResponseEntity<DataResponse> lopphanphanchodangky(@ModelAttribute LopHPChoDKRequest lopHPChoDKRequest) {
+>>>>>>> dac084a4e40c8a593d2412d44454ca747cfa79fa
         try {
             List<LopHocPhanChoDangKyDTO> lopHocPhanChoDangKyDTOS =
                     lopHocPhanChoDangKyService.lopPhanChoChoDangKyTheoHocPhan(lopHPChoDKRequest.getMaHocPhan());
