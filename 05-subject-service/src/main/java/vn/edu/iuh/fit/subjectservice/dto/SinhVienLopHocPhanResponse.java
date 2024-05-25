@@ -14,8 +14,8 @@ public class SinhVienLopHocPhanResponse {
     private String maLopHocPhan;
     private String tenMonHoc;
     private String lopHocPhanDuKien;
-    private String soTC;
-    private String hocPhi;
+    private int soTC;
+    private double hocPhi;
     private String hanNop;
     private Boolean daDongHocPhi=false;
     private String trangThaiDk;

@@ -26,4 +26,7 @@ public enum TrangThaiHocPhanEnum {
         }
         return CHO_SINH_VIEN_DANG_KY;
     }
+    public static String toValue(TrangThaiHocPhanEnum trangThaiHocPhanEnum) {
+        return trangThaiHocPhanEnum.getValue();
+    }
 }
