@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.edu.iuh.fit.subjectservice.dto.*;
 import vn.edu.iuh.fit.subjectservice.services.*;
-
 import java.util.List;
 
 
@@ -44,8 +43,7 @@ public class SubjectController {
         }
     }
 
-    @PostMapping("/DangKyHocPhan/DotDangKy/DanhSachHocPhan")
-    public ResponseEntity<DataResponse> danhsachhocphan(@RequestBody HocPhanTheoKyDTO hocPhanTheoKyDTO) {
+    public ResponseEntity<DataResponse> danhsachhocphan(@ModelAttribute HocPhanTheoKyDTO hocPhanTheoKyDTO) {
         try {
             List<HocPhanDTO> hocPhanDTOS = hocPhanServices.danhSachHoocPhanTheoKyVaChuyeNganh(hocPhanTheoKyDTO.getNamHoc(),
                     hocPhanTheoKyDTO.getHocKy(),hocPhanTheoKyDTO.getChuyenNganh(),hocPhanTheoKyDTO.getMssv());
@@ -60,9 +58,8 @@ public class SubjectController {
             return ResponseEntity.ok(dataResponse);
         }
     }
-    @PostMapping("/DangKyHocPhan/DotDangKy/DanhSachHocPhan/LopHocPhanChoDangKy")
-    public ResponseEntity<DataResponse> lopphanphanchodangky(@RequestBody LopHPChoDKRequest lopHPChoDKRequest) {
 
+    public ResponseEntity<DataResponse> lopphanphanchodangky(@ModelAttribute LopHPChoDKRequest lopHPChoDKRequest) {
         try {
             List<LopHocPhanChoDangKyDTO> lopHocPhanChoDangKyDTOS =
                     lopHocPhanChoDangKyService.lopPhanChoChoDangKyTheoHocPhan(lopHPChoDKRequest.getMaHocPhan());
