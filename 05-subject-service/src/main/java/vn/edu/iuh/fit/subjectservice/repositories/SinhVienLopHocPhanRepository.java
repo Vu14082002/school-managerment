@@ -2,13 +2,18 @@ package vn.edu.iuh.fit.subjectservice.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import vn.edu.iuh.fit.subjectservice.dto.DangKyHocPhanRequestDTO;
+import vn.edu.iuh.fit.subjectservice.dto.SinhVienLopHocPhanResponse;
 import vn.edu.iuh.fit.subjectservice.enums.HocKyEnum;
 import vn.edu.iuh.fit.subjectservice.keys.SinhVienLopHocPhanKey;
 import vn.edu.iuh.fit.subjectservice.model.LopHoc;
 import vn.edu.iuh.fit.subjectservice.model.SinhVienLopHocPhan;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface SinhVienLopHocPhanRepository extends JpaRepository<SinhVienLopHocPhan, SinhVienLopHocPhanKey>, JpaSpecificationExecutor<SinhVienLopHocPhan> {
@@ -30,4 +35,17 @@ public interface SinhVienLopHocPhanRepository extends JpaRepository<SinhVienLopH
                                                       @Param("namhoc") int namHoc,
                                                       @Param("hocKy") String hocKy);
 
+
+    @Query(
+            value = "INSERT INTO `sinhvien_lophocphan` (`ngay_dang_ky`, `trang_thai_dang_ky`, `ma_sinh_vien_mssv`, `lop_hoc_phan_dang_ky_hoc_phan_lich_dang_ky_hoc_phan_hoc_ky`, `lop_hoc_phan_dang_ky_hoc_phan_lich_dang_ky_hoc_phan_namhoc`, `lop_hoc_phan_dang_ky_hoc_phan_mon_hoc_ma_mon_hoc`, `lop_hoc_phan_dang_ky_lop_hoc_du_kien_ma_lop_hoc_phan`) VALUES (CURRENT_DATE(), :trangThaiDangKy, :mssv, :hocKy, :namHoc, :maMonHoc, :maLopHocPhan)",
+            nativeQuery = true
+    )
+    void sinHVienDangKyHocPhanMoi(
+            @Param("trangThaiDangKy") String trangThaiDangKy,
+            @Param("mssv") int mssv,
+            @Param("hocKy") String hocKy,
+            @Param("namHoc") int namHoc,
+            @Param("maMonHoc") int maMonHoc,
+            @Param("maLopHocPhan") String maLopHocPhan
+    );
 }

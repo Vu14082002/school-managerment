@@ -19,8 +19,16 @@ public class SinhVienLopHocPhan {
     @EmbeddedId
     private SinhVienLopHocPhanKey sinhVienLopHocPhanKey;
 
+    @Column(columnDefinition = "default CURRENT_DATE")
     private LocalDate ngayDangKy;
 
     @Convert(converter = TrangThaiDangKyEnumConverter.class)
     private TrangThaiDangKyEnum trangThaiDangKy;
+
+    @PrePersist
+    public void prePersist() {
+        if(ngayDangKy == null) {
+            ngayDangKy = LocalDate.now();
+        }
+    }
 }
