@@ -2,6 +2,7 @@ package vn.edu.iuh.fit.studentservice.services;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import vn.edu.iuh.fit.studentservice.dto.SinhVienDto;
 import vn.edu.iuh.fit.studentservice.event.SinhVienEvent;
 import vn.edu.iuh.fit.studentservice.model.SinhVien;
 import vn.edu.iuh.fit.studentservice.publisher.SinhVienAuthProducer;
@@ -30,5 +31,21 @@ public class SinhVienService {
         sinhVienAuthProducer.sendToAuthService(sinhVienEvent);
         sinhVienSubjectProducer.sendToAuthService(sinhVienEvent);
         return sinhvienSaved;
+    }
+    public SinhVienDto findById(Integer id) {
+        SinhVien sinhVien = sinhVienRepository.findById(id).get();
+        SinhVienDto sinhVienDto = new SinhVienDto();
+        sinhVienDto.setMssv(sinhVien.getMssv());
+        sinhVienDto.setHoTen(sinhVien.getHoTen());
+        sinhVienDto.setNgaySinh(sinhVien.getNgaySinh().toString());
+        sinhVienDto.setGioiTinh(sinhVien.getGioiTinh());
+        sinhVienDto.setCccd(sinhVien.getCccd());
+        sinhVienDto.setDienThoai(sinhVien.getDienThoai());
+        sinhVienDto.setEmail(sinhVien.getEmail());
+        sinhVienDto.setDiaChi(sinhVien.getDiaChi());
+        sinhVienDto.setLopDanhNghia(sinhVien.getLopDanhNghia());
+        sinhVienDto.setTrangThai(sinhVien.getTrangThai());
+        sinhVienDto.setChuyenNganh(sinhVien.getChuyenNganh());
+        return sinhVienDto;
     }
 }

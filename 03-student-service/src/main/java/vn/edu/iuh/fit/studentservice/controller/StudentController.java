@@ -37,4 +37,15 @@ public class StudentController {
             return ResponseEntity.badRequest().body(sinhVienResponse);
         }
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<SinhVienResponse> getStudentById(@PathVariable("id") Integer id) {
+        try {
+            SinhVienDto sinhVienDto = sinhVienService.findById(id);
+            SinhVienResponse sinhVienResponse = new SinhVienResponse(HttpStatus.OK.value(), "Success", sinhVienDto);
+            return ResponseEntity.ok(sinhVienResponse);
+        } catch (Exception e) {
+            SinhVienResponse sinhVienResponse = new SinhVienResponse(HttpStatus.NOT_FOUND.value(), "Fail", null);
+            return ResponseEntity.badRequest().body(sinhVienResponse);
+        }
+    }
 }
