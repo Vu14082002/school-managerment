@@ -107,4 +107,21 @@ public class SubjectController {
         }
     }
 
+    @PostMapping("/DangKyHocPhan")
+    public ResponseEntity<DataResponse> dangkyhocphan(@RequestBody DangKyHocPhanRequestDTO  dangKyHocPhanRequestDTO) {
+        try {
+            Boolean isSaved = sinhVienLopHocPhanService.dangKyHocPhanMoi(dangKyHocPhanRequestDTO);
+            dataResponse.setData(isSaved);
+            dataResponse.setMessage("Success");
+            dataResponse.setCode(200);
+            return ResponseEntity.ok(dataResponse);
+        } catch (Exception e) {
+            dataResponse.setData(null);
+            dataResponse.setMessage("Error");
+            dataResponse.setCode(500);
+            e.printStackTrace();
+            return ResponseEntity.ok(dataResponse);
+        }
+    }
+
 }
