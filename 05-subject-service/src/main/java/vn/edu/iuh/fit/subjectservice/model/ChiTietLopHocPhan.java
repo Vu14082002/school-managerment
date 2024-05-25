@@ -42,4 +42,16 @@ public class ChiTietLopHocPhan {
 
     private int soBuoiHocThucHanh;
 
+    @Override
+    public String toString() {
+        return "ChiTietLopHocPhan{" +
+                "id=" + id +
+                ", nhomThucHanh=" + nhomThucHanh +
+                ", lopHocPhanDuKien=" + lopHocPhanDuKien +
+                ", thoiGianBatDauMonHoc=" + thoiGianBatDauMonHoc +
+                ", thoiGianKetThucMonHoc=" + thoiGianKetThucMonHoc +
+                ", soBuoiHocLyThuyet=" + soBuoiHocLyThuyet +
+                ", soBuoiHocThucHanh=" + soBuoiHocThucHanh +
+                '}';
+    }
 }
