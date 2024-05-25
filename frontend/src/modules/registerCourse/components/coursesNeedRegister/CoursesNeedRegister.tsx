@@ -17,9 +17,12 @@ const cx = classNames.bind(styles);
 const CoursesNeedRegister = () => {
     const [subjectChecked, setSubjectChecked] = useState<string>('');
     const { subjects } = useSelector((state: RootState) => state.subjects);
+    const { subject: subjectSelected } = useSelector((state: RootState) => state.classes);
     const dispatch = useAppDispatch();
 
     const handleClickCourseItem = (subject: ICourseNeedRegister) => (e: MouseEvent) => {
+        if (subjectSelected?.maHocPhan === subject.maHocPhan) return;
+
         const rowElement = e.currentTarget;
 
         const selectedRowElement = document.querySelector(`.${cx('course')}.selected`);

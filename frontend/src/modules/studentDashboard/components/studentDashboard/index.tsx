@@ -1,16 +1,23 @@
+import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
+import { useAppSelector } from '../../../../app/hooks';
+import { RootState } from '../../../../app/store';
 import calendar from '../../../../assets/images/calendar.png';
 import courseRegister from '../../../../assets/images/courseregistration.png';
 import payment from '../../../../assets/images/payment.png';
 import resultStuding from '../../../../assets/images/result_studing.png';
 import money from '../../../../assets/images/tracuucongno.png';
-import styles from './styles.module.scss';
-import classNames from 'classnames/bind';
 import Header from '../../../../components/header';
 import { routes } from '../../../../configs';
+import styles from './styles.module.scss';
 const cx = classNames.bind(styles);
 
+// TODO: Khoá học, bậc đào tạo, loại hình đào tạo
 export default function StudentDashboard() {
+    const { user } = useAppSelector((state: RootState) => state.user);
+
+    if (!user) return null;
+
     return (
         <div className={`${cx('wrapper')}`}>
             <Header />
@@ -24,19 +31,21 @@ export default function StudentDashboard() {
                                 <div className=" w-1/2">
                                     <div className="flex flex-nowrap gap-2 mb-3">
                                         <p className="text-sm">MSSV: </p>
-                                        <p className="text-sm font-semibold">2018600000</p>
+                                        <p className="text-sm font-semibold">{user.mssv}</p>
                                     </div>
                                     <div className="flex flex-nowrap gap-2 mb-3">
                                         <p className="text-sm">Họ tên: </p>
-                                        <p className="text-sm font-semibold">Nguyễn Văn Hiếu</p>
+                                        <p className="text-sm font-semibold">{user.hoTen}</p>
                                     </div>
                                     <div className="flex flex-nowrap gap-2 mb-3">
                                         <p className="text-sm">Giới tính: </p>
-                                        <p className="text-sm font-semibold">Nam</p>
+                                        <p className="text-sm font-semibold">{user.gioiTinh ? 'Nam' : 'Nữ'}</p>
                                     </div>
                                     <div className="flex flex-nowrap gap-2 mb-3">
                                         <p className="text-sm">Ngày sinh: </p>
-                                        <p className="text-sm font-semibold">10/12/2000</p>
+                                        <p className="text-sm font-semibold">
+                                            {user.ngaySinh.substring(0, 10).split('-').reverse().join('/')}
+                                        </p>
                                     </div>
                                     <div className="flex flex-nowrap gap-2 mb-3">
                                         <p className="text-sm">Nơi snh: </p>
@@ -47,7 +56,7 @@ export default function StudentDashboard() {
                                 <div className="w-1/2">
                                     <div className="flex flex-nowrap gap-2 mb-3">
                                         <p className="text-sm">Lớp học: </p>
-                                        <p className="text-sm font-semibold">DHKTPM16A</p>
+                                        <p className="text-sm font-semibold">{user.lopDanhNghia[0]}</p>
                                     </div>
                                     <div className="flex flex-nowrap gap-2 mb-3">
                                         <p className="text-sm">Khóa học: </p>
@@ -63,7 +72,7 @@ export default function StudentDashboard() {
                                     </div>
                                     <div className="flex flex-nowrap gap-2 mb-3">
                                         <p className="text-sm">Ngành: </p>
-                                        <p className="text-sm font-semibold">Kỹ thuật phần mềm</p>
+                                        <p className="text-sm font-semibold">{user.chuyenNganh[0]}</p>
                                     </div>
                                 </div>
                             </div>

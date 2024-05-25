@@ -43,6 +43,7 @@ public class SubjectController {
         }
     }
 
+    @GetMapping("/DangKyHocPhan/DotDangKy/DanhSachHocPhan")
     public ResponseEntity<DataResponse> danhsachhocphan(@ModelAttribute HocPhanTheoKyDTO hocPhanTheoKyDTO) {
         try {
             List<HocPhanDTO> hocPhanDTOS = hocPhanServices.danhSachHoocPhanTheoKyVaChuyeNganh(hocPhanTheoKyDTO.getNamHoc(),
@@ -59,6 +60,7 @@ public class SubjectController {
         }
     }
 
+    @GetMapping("/DangKyHocPhan/DotDangKy/DanhSachHocPhan/LopHocPhanChoDangKy")
     public ResponseEntity<DataResponse> lopphanphanchodangky(@ModelAttribute LopHPChoDKRequest lopHPChoDKRequest) {
         try {
             List<LopHocPhanChoDangKyDTO> lopHocPhanChoDangKyDTOS =

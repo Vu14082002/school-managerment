@@ -39,7 +39,7 @@ const subjectsSlice = createSlice({
 
         builder.addCase(getSubjects.fulfilled, (state, action) => {
             state.isLoading = false;
-            state.subjects = action.payload;
+            state.subjects = action.payload || [];
         });
 
         builder.addCase(getSubjects.rejected, (state, action) => {

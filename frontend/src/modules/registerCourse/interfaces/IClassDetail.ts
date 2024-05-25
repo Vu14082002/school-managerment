@@ -1,12 +1,9 @@
 interface IClassDetail {
-    id: string;
-    schedule: string;
-    infrastructure: string;
-    building: string;
-    room: string;
-    lecturer: string;
-    date: string;
-    group?: number;
+    lichHoc: string;
+    nhomThucHanh: number;
+    phongHoc: string;
+    cs: string;
+    giangVien: string;
 }
 
 export default IClassDetail;

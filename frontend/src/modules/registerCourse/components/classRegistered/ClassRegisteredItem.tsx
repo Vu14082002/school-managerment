@@ -3,7 +3,6 @@ import classNames from 'classnames/bind';
 import React, { useRef, useState } from 'react';
 import { useOnClickOutside } from 'usehooks-ts';
 import deleteImage from '../../../../assets/images/ico-delete-min.png';
-import selectImage from '../../../../assets/images/ico-select-min.png';
 import Popper from '../../../../components/popper';
 import { IPopper } from '../../../../interfaces';
 import { IRegisteredClass } from '../../interfaces';
@@ -52,7 +51,7 @@ const ClassRegisteredItem = ({ course, index }: { course: IRegisteredClass; inde
     useOnClickOutside(ref, handleHidePopper);
 
     return (
-        <tr key={course.id} className={cx('class')} onClick={handleClickClass} ref={ref}>
+        <tr key={course.maLopHocPhan} className={cx('class')} onClick={handleClickClass} ref={ref}>
             <td>
                 <span onClick={handleClick}>
                     <MenuIcon fontSize="small" />
@@ -60,19 +59,22 @@ const ClassRegisteredItem = ({ course, index }: { course: IRegisteredClass; inde
                 <Popper data={popper} placement="right" open={open} anchorEl={anchorEl} />
             </td>
             <td>{index + 1}</td>
-            <td>{course.id}</td>
-            <td>{course.name}</td>
-            <td>{course.class}</td>
-            <td>{course.credit}</td>
-            <td>{course.group}</td>
-            <td>{course.fee}</td>
-            <td>{course.deadline}</td>
+            <td>{course.maLopHocPhan}</td>
+            <td>{course.tenMonHoc}</td>
+            <td>{course.lopHocPhanDuKien}</td>
+            <td>{course.soTC}</td>
+            {/* TODO */}
+            <td></td>
+            <td>{course.hocPhi}</td>
+            <td>{course.hanNop}</td>
             <td>
-                <img className={cx('class__payment')} src={course.payment ? selectImage : deleteImage} alt="" />
+                {/* TODO */}
+                {/* <img className={cx('class__payment')} src={false ? selectImage : deleteImage} alt="" /> */}
+                <img className={cx('class__payment')} src={deleteImage} alt="" />
             </td>
-            <td>{course.status}</td>
-            <td>{course.registerDate}</td>
-            <td>{course.classStatus}</td>
+            <td>{course.trangThaiDk}</td>
+            <td>{course.ngayDK}</td>
+            <td>{course.trangThaiHocPhan}</td>
         </tr>
     );
 };

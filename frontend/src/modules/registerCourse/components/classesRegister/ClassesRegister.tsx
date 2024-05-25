@@ -4,15 +4,17 @@ import classNames from 'classnames/bind';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
 import { RootState } from '../../../../app/store';
+import { getClassDetails, setClass } from '../../features/classDetails/classDetailsSlice';
 import { getClasses } from '../../features/classes/classesSlice';
+import { IClass } from '../../interfaces';
 import Table from '../table';
 import styles from './styles.module.scss';
 
 const cx = classNames.bind(styles);
 
 const ClassesRegister = () => {
+    const [classId, setClassId] = useState<string>('');
     const { classes, subject } = useAppSelector((state: RootState) => state.classes);
-    console.log('🚀 ~ ClassesRegister ~ subject:', subject);
     const [showNotOverlap, setShowNotOverlap] = useState<boolean>(false);
     console.log('🚀 ~ ClassesRegister ~ showNotOverlap:', showNotOverlap);
     const dispatch = useAppDispatch();
@@ -23,10 +25,24 @@ const ClassesRegister = () => {
         const source = axios.CancelToken.source();
 
         const getData = async () => {
-            dispatch(
+            const data: IClass[] = await dispatch(
                 getClasses({
                     data: {
                         maHocPhan: subject.maHocPhan,
+                    },
+                    cancelToken: source.token,
+                }),
+            ).unwrap();
+
+            const firstClass = data[0];
+            setClassId(firstClass.maLopHocPhan);
+
+            dispatch(setClass(firstClass));
+            dispatch(
+                getClassDetails({
+                    data: {
+                        maHocPhan: subject.maHocPhan,
+                        maLopHocPhan: firstClass.maLopHocPhan,
                     },
                     cancelToken: source.token,
                 }),
@@ -55,6 +71,22 @@ const ClassesRegister = () => {
         );
     };
 
+    const handleClickClass = (item: IClass) => {
+        if (!subject || item.maLopHocPhan === classId) return;
+
+        setClassId(item.maLopHocPhan);
+
+        dispatch(setClass(item));
+        dispatch(
+            getClassDetails({
+                data: {
+                    maHocPhan: subject.maHocPhan,
+                    maLopHocPhan: item.maLopHocPhan,
+                },
+            }),
+        );
+    };
+
     return (
         <Table title="Lớp học phần chờ đăng ký" detail={renderClassesNotOverlap()}>
             <thead>
@@ -67,12 +99,10 @@ const ClassesRegister = () => {
             <tbody>
                 {classes.map((item, index) => (
                     <tr
-                        onClick={() => {}}
+                        onClick={() => handleClickClass(item)}
                         key={item.maLopHocPhan}
                         className={cx('class', {
-                            // TODO
-                            // selected: classId === item.id,
-                            selected: false,
+                            selected: classId === item.maLopHocPhan,
                         })}
                     >
                         <td>{index + 1}</td>

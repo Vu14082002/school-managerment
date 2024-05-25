@@ -7,34 +7,7 @@ import styles from './styles.module.scss';
 
 const cx = classNames.bind(styles);
 
-const registerCourses: IRegisteredClass[] = [
-    {
-        class: 'DHKTPM16A',
-        classStatus: 'Đã khóa',
-        credit: 3,
-        deadline: '20/09/2021',
-        fee: 1000000,
-        id: '4203003193',
-        name: 'Toán ứng dụng Toán ứng dụng',
-        registerDate: '19/09/2021',
-        status: 'Đăng ký mới',
-        payment: false,
-        group: 1,
-    },
-    {
-        class: 'DHKTPM16A',
-        classStatus: 'Đã khóa',
-        credit: 3,
-        deadline: '20/09/2021',
-        fee: 1000000,
-        id: '4203003194',
-        name: 'Toán ứng dụng Toán ứng dụng',
-        registerDate: '19/09/2021',
-        status: 'Đăng ký mới',
-        payment: false,
-        group: 1,
-    },
-];
+const registerCourses: IRegisteredClass[] = [];
 
 const ClassRegistered = ({ className }: { className?: string }) => {
     return (
@@ -58,9 +31,15 @@ const ClassRegistered = ({ className }: { className?: string }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {registerCourses.map((course, index) => (
-                        <ClassRegisteredItem key={course.id} course={course} index={index} />
-                    ))}
+                    {registerCourses.length ? (
+                        registerCourses.map((course, index) => (
+                            <ClassRegisteredItem key={course.maLopHocPhan} course={course} index={index} />
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan={13}>Không tìm thấy lớp HP đã đăng ký</td>
+                        </tr>
+                    )}
                 </tbody>
             </Table>
 

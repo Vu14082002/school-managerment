@@ -2,12 +2,14 @@ import { Option, Radio, RadioGroup, Select } from '@mui/joy';
 import axios from 'axios';
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { RootState } from '../../app/store';
 import ClassRegisterDetail from './components/classRegisterDetail';
 import ClassRegistered from './components/classRegistered';
 import ClassesRegister from './components/classesRegister';
 import CoursesNeedRegister from './components/coursesNeedRegister';
 import { setSubject } from './features/classes/classesSlice';
+import { getRegisteredClasses } from './features/registeredClasses/registeredClassesSlice';
 import { getSubjects } from './features/subjects/subjectsSlice';
 import style from './style.module.scss';
 
@@ -47,6 +49,7 @@ const types = [
 ];
 
 const RegisterCourse = () => {
+    const { user } = useAppSelector((state: RootState) => state.user);
     const [typeChecked, setTypeChecked] = useState<string>('new_learning');
     const [semester, setSemester] = useState<string>('');
     const dispatch = useAppDispatch();
@@ -60,24 +63,31 @@ const RegisterCourse = () => {
     useEffect(() => {
         dispatch(setSubject(undefined));
 
-        if (!semester) return;
+        if (!semester || !user) return;
 
         const source = axios.CancelToken.source();
 
         const getData = async () => {
-            const [hocKy, namHoc] = semester.split('_');
+            const [hocKy, sNamHoc] = semester.split('_');
+
+            const namHoc = +sNamHoc;
 
             dispatch(
                 getSubjects({
                     data: {
                         hocKy: hocKy.toUpperCase(),
-                        namHoc: +namHoc,
+                        namHoc,
+                        // mssv: user.mssv,
+                        // chuyenNganh: user.chuyenNganh[0],
                         mssv: 29,
                         chuyenNganh: 'CN01',
                     },
                     cancelToken: source.token,
                 }),
             );
+
+            // TODO Update mssv
+            dispatch(getRegisteredClasses({ data: { hocKy, namHoc, mssv: 20001575 }, cancelToken: source.token }));
         };
 
         getData();
@@ -85,7 +95,7 @@ const RegisterCourse = () => {
         return () => {
             source.cancel();
         };
-    }, [dispatch, semester, typeChecked]);
+    }, [dispatch, semester, typeChecked, user]);
 
     return (
         <div className={cx('container')}>

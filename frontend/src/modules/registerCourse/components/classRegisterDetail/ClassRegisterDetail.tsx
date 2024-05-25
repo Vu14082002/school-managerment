@@ -1,56 +1,17 @@
 import classNames from 'classnames/bind';
-import { useState } from 'react';
-import { IClassDetail } from '../../interfaces';
+import { useEffect, useState } from 'react';
+import { useAppSelector } from '../../../../app/hooks';
+import { RootState } from '../../../../app/store';
 import Table from '../table';
 import styles from './styles.module.scss';
 
 const cx = classNames.bind(styles);
 
-const classDetails: IClassDetail[] = [
-    {
-        building: 'H (CS1)',
-        date: '03/06/2024 - 08/07/2024',
-        id: '1',
-        infrastructure: 'Cơ sở 1 (Thành phố Hồ Chí Minh)',
-        lecturer: 'TS Đoàn Văn Thắng',
-        room: 'H4.2.1',
-        schedule: 'TH   - Thứ 2  (Tiết 7  -> 12 )',
-    },
-    {
-        building: 'H (CS1)',
-        date: '03/06/2024 - 08/07/2024',
-        id: '2',
-        infrastructure: 'Cơ sở 1 (Thành phố Hồ Chí Minh)',
-        lecturer: 'TS Đoàn Văn Thắng',
-        room: 'H4.2.1',
-        schedule: 'TH   - Thứ 2  (Tiết 7  -> 12 )',
-        group: 1,
-    },
-    {
-        building: 'H (CS1)',
-        date: '03/06/2024 - 08/07/2024',
-        id: '3',
-        infrastructure: 'Cơ sở 1 (Thành phố Hồ Chí Minh)',
-        lecturer: 'TS Đoàn Văn Thắng',
-        room: 'H4.2.1',
-        schedule: 'TH   - Thứ 2  (Tiết 7  -> 12 )',
-        group: 2,
-    },
-    {
-        building: 'H (CS1)',
-        date: '03/06/2024 - 08/07/2024',
-        id: '4',
-        infrastructure: 'Cơ sở 1 (Thành phố Hồ Chí Minh)',
-        lecturer: 'TS Đoàn Văn Thắng',
-        room: 'H4.2.1',
-        schedule: 'TH   - Thứ 2  (Tiết 7  -> 12 )',
-        group: 2,
-    },
-];
-
 const ClassRegisterDetail = () => {
     const [active, setActive] = useState<number | undefined>(undefined);
-    const showGroupCol = classDetails.some((classDetail) => classDetail.group);
+    const { classDetails, classSelected } = useAppSelector((state: RootState) => state.classDetails);
+    const { classes } = useAppSelector((state: RootState) => state.classes);
+    const showGroupCol = classDetails.some((classDetail) => classDetail.nhomThucHanh);
 
     const renderButtonViewSchedule = () => {
         return (
@@ -62,6 +23,12 @@ const ClassRegisterDetail = () => {
 
     const handleClickItem = (group: number | undefined) => group && setActive(group);
 
+    useEffect(() => {
+        setActive(undefined);
+    }, [classDetails]);
+
+    if (!classes.length || !classSelected) return null;
+
     return (
         <div>
             <Table title="Chi tiết lớp học phần" detail={renderButtonViewSchedule()}>
@@ -72,47 +39,47 @@ const ClassRegisterDetail = () => {
                         </th>
                         {showGroupCol ? <th style={{ width: '57px' }}>Nhóm</th> : null}
                         <th>
-                            <span className={cx('text-blue-bold')}>Sĩ số tối đa: 66</span>
+                            <span className={cx('text-blue-bold')}>Sĩ số tối đa: {classSelected.siSoToiDa}</span>
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    {classDetails.map((classDetail) => (
+                    {classDetails.map((classDetail, index) => (
                         <tr
-                            key={classDetail.id}
+                            key={index}
                             className={cx('class-detail', {
-                                selected: !classDetail.group,
-                                active: active && active === classDetail.group,
+                                selected: !classDetail.nhomThucHanh,
+                                active: active && active === classDetail.nhomThucHanh,
                             })}
-                            onClick={() => handleClickItem(classDetail.group)}
+                            onClick={() => handleClickItem(classDetail.nhomThucHanh)}
                         >
                             <td>
                                 <div className={cx('class-detail__info')}>
                                     <p>
                                         Lịch học: &nbsp;
-                                        <strong className={cx('text-blue-bold')}>{classDetail.schedule}</strong>
+                                        <strong className={cx('text-blue-bold')}>{classDetail.lichHoc}</strong>
                                     </p>
                                     <p>
                                         Cơ sở: &nbsp;
-                                        <strong>{classDetail.infrastructure}</strong>
+                                        <strong>{classDetail.cs}</strong>
                                     </p>
-                                    <p>
+                                    {/* <p>
                                         Dãy nhà: &nbsp;
                                         <strong>{classDetail.building}</strong>
-                                    </p>
+                                    </p> */}
                                     <p>
                                         Phòng: &nbsp;
-                                        <strong>{classDetail.room}</strong>
+                                        <strong>{classDetail.phongHoc}</strong>
                                     </p>
                                 </div>
                             </td>
-                            {showGroupCol ? <td>{classDetail.group}</td> : null}
+                            {showGroupCol ? <td>{classDetail.nhomThucHanh}</td> : null}
                             <td>
                                 <div className={cx('class-detail__info')}>
                                     <p>
-                                        <strong>GV:&nbsp; {classDetail.lecturer}</strong>
+                                        <strong>GV:&nbsp; {classDetail.giangVien}</strong>
                                     </p>
-                                    <p>{classDetail.date}</p>
+                                    <p>{classDetail.lichHoc}</p>
                                 </div>
                             </td>
                         </tr>
@@ -129,7 +96,14 @@ const ClassRegisterDetail = () => {
 
             {classDetails.length ? (
                 <div className={cx('register-btn-wrap')}>
-                    <button className={cx('register-btn')}>Đăng ký</button>
+                    <button
+                        disabled={showGroupCol && !active}
+                        className={cx('register-btn', {
+                            disabled: showGroupCol && !active,
+                        })}
+                    >
+                        Đăng ký
+                    </button>
                 </div>
             ) : null}
         </div>
