@@ -1,17 +1,51 @@
-import { useState } from 'react';
+import { AxiosError } from 'axios';
 import classNames from 'classnames/bind';
-import styles from './styles.module.scss';
-const cx = classNames.bind(styles);
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import axiosClient from '../../../../api';
+import congThongTinSV from '../../../../assets/images/congthongtinsinhvien.png';
 import loginLogo from '../../../../assets/images/loginLogo.png';
 import loginSlide from '../../../../assets/images/loginSlide.jpg';
-import congThongTinSV from '../../../../assets/images/congthongtinsinhvien.png';
+import { login } from '../../../../features/auth/authSlice';
+import { token } from '../../../../utils';
+import { AUTH_ENDPOINT } from '../../constants';
+import styles from './styles.module.scss';
+const cx = classNames.bind(styles);
 
 export default function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    // const [errMessage, setErrMessage] = useState('');
+    const [errMessage, setErrMessage] = useState('');
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    function handleLoginAccount() {}
+    async function handleLoginAccount() {
+        setErrMessage('');
+
+        if (!username || !password) {
+            setErrMessage('Vui lòng username và password');
+            return;
+        }
+
+        try {
+            const res = await axiosClient.post(`${AUTH_ENDPOINT}/login`, {
+                username,
+                password,
+            });
+
+            const data = res.data.data;
+
+            token.set(data.accessToken);
+            dispatch(login(data.user));
+            navigate('/');
+        } catch (error) {
+            const err = error as AxiosError;
+
+            if (err.code === 'ERR_BAD_REQUEST') setErrMessage('Sai tên đăng nhập hoặc mật khẩu');
+            else setErrMessage(err.message);
+        }
+    }
 
     return (
         <div className={cx('container')}>
@@ -63,11 +97,13 @@ export default function Login() {
                                 Đăng Nhập
                             </button>
 
-                            <div className="mt-3">
-                                <span className="text-pink-700 hover:text-pink-800 cursor-pointer text-sm mt-6">
-                                    Error messages
-                                </span>
-                            </div>
+                            {errMessage && (
+                                <div className="mt-3">
+                                    <span className="text-pink-700 hover:text-pink-800 cursor-pointer text-sm mt-6">
+                                        {errMessage}
+                                    </span>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

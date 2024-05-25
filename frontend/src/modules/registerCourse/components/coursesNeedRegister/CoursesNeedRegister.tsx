@@ -1,26 +1,37 @@
 import { Radio } from '@mui/joy';
 import classNames from 'classnames/bind';
-import { MouseEvent } from 'react';
+import { MouseEvent, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../../../../app/hooks';
+import { RootState } from '../../../../app/store';
 import deleteImage from '../../../../assets/images/ico-delete-min.png';
 import selectImage from '../../../../assets/images/ico-select-min.png';
 import CourseTypes from '../../components/courseTypes';
+import { setSubject } from '../../features/classes/classesSlice';
 import { ICourseNeedRegister, ICourseType } from '../../interfaces';
 import Table from '../table';
 import styles from './styles.module.scss';
 
 const cx = classNames.bind(styles);
 
-const CoursesNeedRegister = ({ courses }: { courses: ICourseNeedRegister[] }) => {
-    const handleClickCourseItem = (e: MouseEvent) => {
-        const rowElement = e.currentTarget;
-        const radioElement = rowElement.querySelector('input[type="radio"]') as HTMLInputElement;
+const CoursesNeedRegister = () => {
+    const [subjectChecked, setSubjectChecked] = useState<string>('');
+    const { subjects } = useSelector((state: RootState) => state.subjects);
+    const dispatch = useAppDispatch();
 
-        const selectedRowElement = document.querySelector('.course.selected');
+    const handleClickCourseItem = (subject: ICourseNeedRegister) => (e: MouseEvent) => {
+        const rowElement = e.currentTarget;
+
+        const selectedRowElement = document.querySelector(`.${cx('course')}.selected`);
         selectedRowElement?.classList.remove('selected');
 
         rowElement.classList.add('selected');
-        radioElement?.click();
+
+        dispatch(setSubject(subject));
+        setSubjectChecked(subject.maHocPhan);
     };
+
+    if (!subjects.length) return null;
 
     return (
         <Table title="Môn học/học phần đang chờ đăng ký" className={cx('courses-table')}>
@@ -36,24 +47,31 @@ const CoursesNeedRegister = ({ courses }: { courses: ICourseNeedRegister[] }) =>
                 </tr>
             </thead>
             <tbody>
-                {courses.map((course, index) => (
-                    <tr key={course.id} className={cx('course')} onClick={handleClickCourseItem}>
+                {subjects.map((subject, index) => (
+                    <tr key={subject.maHocPhan} className={cx('course')} onClick={handleClickCourseItem(subject)}>
                         <td>
-                            <Radio variant="outlined" />
+                            <Radio
+                                id={subject.maHocPhan}
+                                name="ma-hoc-phan"
+                                variant="outlined"
+                                checked={subjectChecked === subject.maHocPhan}
+                            />
                         </td>
                         <td>{index + 1}</td>
-                        <td>{course.id}</td>
-                        <td>{course.name}</td>
-                        <td>{course.credit}</td>
+                        <td>{subject.maHocPhan}</td>
+                        <td>{subject.tenMonHoc}</td>
+                        <td>{subject.soTinChi}</td>
                         <td>
                             <img
                                 className={cx('course__required')}
-                                src={course.required ? selectImage : deleteImage}
+                                src={subject.loaiMonHoc === 'Bắt buộc' ? selectImage : deleteImage}
                                 alt=""
                             />
                         </td>
                         <td>
-                            <CourseTypes types={course.courses as ICourseType[]} />
+                            {subject.danhSachMonHocTruoc && (
+                                <CourseTypes types={subject.danhSachMonHocTruoc as ICourseType[]} />
+                            )}
                         </td>
                     </tr>
                 ))}

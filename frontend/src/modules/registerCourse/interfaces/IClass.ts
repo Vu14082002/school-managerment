@@ -1,9 +1,11 @@
 interface IClass {
-    id: string;
-    name: string;
-    status: string;
-    quantity: number;
-    maxQuantity: number;
+    maLopHocPhan: string;
+    tenMonHoc: string;
+    maMonHoc: number;
+    lopHocDuKien: string;
+    siSoToiDa: number;
+    soLuongSinhVienDKHienTai: number;
+    trangThai: null;
 }
 
 export default IClass;

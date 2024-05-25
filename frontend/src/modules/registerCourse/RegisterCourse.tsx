@@ -1,11 +1,14 @@
 import { Option, Radio, RadioGroup, Select } from '@mui/joy';
+import axios from 'axios';
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
+import { useAppDispatch } from '../../app/hooks';
 import ClassRegisterDetail from './components/classRegisterDetail';
 import ClassRegistered from './components/classRegistered';
 import ClassesRegister from './components/classesRegister';
 import CoursesNeedRegister from './components/coursesNeedRegister';
-import { ICourseNeedRegister } from './interfaces';
+import { setSubject } from './features/classes/classesSlice';
+import { getSubjects } from './features/subjects/subjectsSlice';
 import style from './style.module.scss';
 
 const cx = classNames.bind(style);
@@ -43,35 +46,46 @@ const types = [
     },
 ];
 
-const courses: ICourseNeedRegister[] = [
-    {
-        id: '4203003193',
-        name: 'Toán ứng dụng',
-        credit: 3,
-        required: false,
-        courses: [
-            {
-                type: 'a',
-                id: '003591',
-            },
-        ],
-    },
-];
-
 const RegisterCourse = () => {
     const [typeChecked, setTypeChecked] = useState<string>('new_learning');
     const [semester, setSemester] = useState<string>('');
+    const dispatch = useAppDispatch();
 
     const handleChangeType = (e: React.ChangeEvent<HTMLInputElement>) => setTypeChecked(e.target.value);
     const handleChange = (_event: React.SyntheticEvent | null, newValue: string | null) =>
         newValue && setSemester(newValue);
 
+    // FIXME: Get MSSV, chuyenNganh
+    // TODO: Loại đăng ký
     useEffect(() => {
-        console.group('RegisterCourse');
-        console.log('semester:', semester);
-        console.log('typeChecked:', typeChecked);
-        console.groupEnd();
-    }, [semester, typeChecked]);
+        dispatch(setSubject());
+
+        if (!semester) return;
+
+        const source = axios.CancelToken.source();
+
+        const getData = async () => {
+            const [hocKy, namHoc] = semester.split('_');
+
+            dispatch(
+                getSubjects({
+                    data: {
+                        hocKy: hocKy.toUpperCase(),
+                        namHoc: +namHoc,
+                        mssv: 29,
+                        chuyenNganh: 'CN01',
+                    },
+                    cancelToken: source.token,
+                }),
+            );
+        };
+
+        getData();
+
+        return () => {
+            source.cancel();
+        };
+    }, [dispatch, semester, typeChecked]);
 
     return (
         <div className={cx('container')}>
@@ -104,7 +118,7 @@ const RegisterCourse = () => {
                 </RadioGroup>
             </div>
 
-            <CoursesNeedRegister courses={courses} />
+            <CoursesNeedRegister />
 
             <div className={cx('flex', 'course-detail')}>
                 <div className={cx('flex-1', 'classes')}>
