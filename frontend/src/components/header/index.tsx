@@ -1,11 +1,25 @@
-import styles from './styles.module.scss';
 import classNames from 'classnames/bind';
-const cx = classNames.bind(styles);
-import logoIuh from '../../assets/images/header-iuh-logo.png';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import axiosClient from '../../api';
+import logoIuh from '../../assets/images/header-iuh-logo.png';
 import { routes } from '../../configs';
+import { logout } from '../../features/auth/authSlice';
+import { AUTH_ENDPOINT } from '../../modules/auth/constants';
+import { token } from '../../utils';
+import styles from './styles.module.scss';
+
+const cx = classNames.bind(styles);
 
 export default function Header() {
+    const dispatch = useDispatch();
+
+    const handleLogout = () => {
+        token.set('');
+        dispatch(logout());
+        axiosClient.post(`${AUTH_ENDPOINT}/logout`).then();
+    };
+
     return (
         <div className={`w-full flex justify-center py-2 ${cx('wrapper')}`}>
             <div className="w-[1200px] flex justify-between flex-nowrap">
@@ -24,7 +38,7 @@ export default function Header() {
                         </summary>
                         <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 w-52">
                             <li>
-                                <Link to={routes.notFound}>
+                                <Link onClick={handleLogout} to={routes.login}>
                                     <p>Đăng xuất</p>
                                 </Link>
                             </li>

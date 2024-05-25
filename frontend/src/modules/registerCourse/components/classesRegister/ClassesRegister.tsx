@@ -1,26 +1,46 @@
 import { Checkbox } from '@mui/joy';
+import axios from 'axios';
 import classNames from 'classnames/bind';
-import { ChangeEvent, useState } from 'react';
-import { IClass } from '../../interfaces';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
+import { RootState } from '../../../../app/store';
+import { getClasses } from '../../features/classes/classesSlice';
 import Table from '../table';
 import styles from './styles.module.scss';
 
 const cx = classNames.bind(styles);
 
-const classes: IClass[] = [
-    {
-        id: '420300334502 - DHNL19A',
-        name: 'Vật lý đại cương',
-        status: 'Đã khóa',
-        quantity: 82,
-        maxQuantity: 85,
-    },
-];
-
 const ClassesRegister = () => {
-    const [classId, setClassId] = useState<string>('');
+    const { classes, subject } = useAppSelector((state: RootState) => state.classes);
+    console.log('🚀 ~ ClassesRegister ~ subject:', subject);
     const [showNotOverlap, setShowNotOverlap] = useState<boolean>(false);
     console.log('🚀 ~ ClassesRegister ~ showNotOverlap:', showNotOverlap);
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        if (!subject) return;
+
+        const source = axios.CancelToken.source();
+
+        const getData = async () => {
+            dispatch(
+                getClasses({
+                    data: {
+                        maHocPhan: subject.maHocPhan,
+                    },
+                    cancelToken: source.token,
+                }),
+            );
+        };
+
+        getData();
+
+        return () => {
+            source.cancel();
+        };
+    }, [dispatch, subject]);
+
+    if (!classes.length) return null;
 
     const handleChangeShowNotOverlap = (e: ChangeEvent<HTMLInputElement>) => setShowNotOverlap(e.target.checked);
 
@@ -47,28 +67,30 @@ const ClassesRegister = () => {
             <tbody>
                 {classes.map((item, index) => (
                     <tr
-                        onClick={() => setClassId(item.id)}
-                        key={item.id}
+                        onClick={() => {}}
+                        key={item.maLopHocPhan}
                         className={cx('class', {
-                            selected: classId === item.id,
+                            // TODO
+                            // selected: classId === item.id,
+                            selected: false,
                         })}
                     >
                         <td>{index + 1}</td>
                         <td>
                             <div className={cx('class__info')}>
-                                <p className={cx('class__name')}>{item.name}</p>
+                                <p className={cx('class__name')}>{item.tenMonHoc}</p>
                                 <p>
                                     Trạng thái: &nbsp;
-                                    <span className={cx('class__status')}>{item.status}</span>
+                                    <span className={cx('class__status')}>{item.trangThai}</span>
                                 </p>
                                 <p>
                                     Mã lớp học phần: &nbsp;
-                                    <span>{item.id}</span>
+                                    <span>{item.maLopHocPhan}</span>
                                 </p>
                             </div>
                         </td>
                         <td>
-                            {item.quantity}/{item.maxQuantity}
+                            {item.soLuongSinhVienDKHienTai}/{item.siSoToiDa}
                         </td>
                     </tr>
                 ))}
