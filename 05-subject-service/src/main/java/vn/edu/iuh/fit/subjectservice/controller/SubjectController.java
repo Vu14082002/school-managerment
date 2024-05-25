@@ -5,10 +5,7 @@ package vn.edu.iuh.fit.subjectservice.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import vn.edu.iuh.fit.subjectservice.dto.*;
 import vn.edu.iuh.fit.subjectservice.enums.HocKyEnum;
 import vn.edu.iuh.fit.subjectservice.keys.HocPhanKey;
@@ -38,7 +35,7 @@ public class SubjectController {
     }
 
 
-    @GetMapping("/DangKyHocPhan/DotDangKy")
+    @PostMapping("/DangKyHocPhan/DotDangKy")
     public ResponseEntity<DataResponse> dotdangky() {
         try {
             List<LichDangKyHocPhanDTO> allLichDangKyHocPhan = lichDangKyHocPhanServices.getAllLichDangKyHocPhan();
@@ -54,7 +51,7 @@ public class SubjectController {
         }
     }
 
-    @GetMapping("/DangKyHocPhan/DotDangKy/DanhSachHocPhan")
+    @PostMapping("/DangKyHocPhan/DotDangKy/DanhSachHocPhan")
     public ResponseEntity<DataResponse> danhsachhocphan(@RequestBody HocPhanTheoKyDTO hocPhanTheoKyDTO) {
         try {
             List<HocPhanDTO> hocPhanDTOS = hocPhanServices.danhSachHoocPhanTheoKyVaChuyeNganh(hocPhanTheoKyDTO.getNamHoc(),
@@ -70,7 +67,7 @@ public class SubjectController {
             return ResponseEntity.ok(dataResponse);
         }
     }
-    @GetMapping("/DangKyHocPhan/DotDangKy/DanhSachHocPhan/LopHocPhanChoDangKy")
+    @PostMapping("/DangKyHocPhan/DotDangKy/DanhSachHocPhan/LopHocPhanChoDangKy")
     public ResponseEntity<DataResponse> lopphanphanchodangky(@RequestBody LopHPChoDKRequest lopHPChoDKRequest) {
         try {
             List<LopHocPhanChoDangKyDTO> lopHocPhanChoDangKyDTOS =
@@ -86,9 +83,23 @@ public class SubjectController {
             return ResponseEntity.ok(dataResponse);
         }
     }
-    @GetMapping("/DangKyHocPhan/DotDangKy/DanhSachHocPhan/LopHocPhanChoDangKy/ChiTietLopHocPhan")
+    @PostMapping("/DangKyHocPhan/DotDangKy/DanhSachHocPhan/LopHocPhanChoDangKy/ChiTietLopHocPhan")
     public ResponseEntity<DataResponse> chiTietLopHocPhan(@RequestBody ChiTietLopHocPhanRequest  chiTietLopHocPhan) {
-        chiTietLopHocPhanService.findAllByLopHocPhanAndNamHoc(chiTietLopHocPhan);
+        List<ChiTietLopHocPhanResponseDTO> allByLopHocPhanAndNamHoc = chiTietLopHocPhanService.findAllByLopHocPhanAndNamHoc(chiTietLopHocPhan);
+        try {
+            dataResponse.setData(allByLopHocPhanAndNamHoc);
+            dataResponse.setMessage("Success");
+            dataResponse.setCode(200);
+            return ResponseEntity.ok(dataResponse);
+        } catch (Exception e) {
+            dataResponse.setData(null);
+            dataResponse.setMessage("Error");
+            dataResponse.setCode(500);
+            return ResponseEntity.ok(dataResponse);
+        }
+    }
+    @PostMapping("/DangKyHocPhan/DotDangKy/DanhSachHocPhan/LopHocPhanChoDangKy/ChiTietLopHocPhan")
+    public ResponseEntity<DataResponse> danhSachHocPhanDangKyTrongKy(@RequestBody SinhVienLopHocPhanRequest  sinhVienLopHocPhanRequest) {
         try {
             dataResponse.setData(null);
             dataResponse.setMessage("Success");
