@@ -58,7 +58,7 @@ const RegisterCourse = () => {
     // FIXME: Get MSSV, chuyenNganh
     // TODO: Loại đăng ký
     useEffect(() => {
-        dispatch(setSubject());
+        dispatch(setSubject(undefined));
 
         if (!semester) return;
 

@@ -5,18 +5,16 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import vn.edu.iuh.fit.studentservice.convert.ObjectConverter;
 import vn.edu.iuh.fit.studentservice.dto.SinhVienDto;
 import vn.edu.iuh.fit.studentservice.dto.SinhVienResponse;
-import vn.edu.iuh.fit.studentservice.event.SinhVienEvent;
 import vn.edu.iuh.fit.studentservice.model.SinhVien;
-import vn.edu.iuh.fit.studentservice.repositoies.SinhVienRepository;
 import vn.edu.iuh.fit.studentservice.services.SinhVienService;
 
 @RestController
 @RequestMapping("${spring.api.version}")
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:5173")
 public class StudentController {
     private SinhVienService sinhVienService;
     private ObjectConverter objectConverter;
