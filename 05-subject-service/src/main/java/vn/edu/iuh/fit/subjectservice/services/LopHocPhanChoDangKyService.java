@@ -26,10 +26,12 @@ public class LopHocPhanChoDangKyService {
     private SinhVienLopHocPhanRepository  sinhVienLopHocPhanRepository;
 
     public List<LopHocPhanChoDangKyDTO> lopPhanChoChoDangKyTheoHocPhan(String maLopHocPhan) {
-
-        int namHoc = Integer.parseInt(maLopHocPhan.split("-")[0]);
-        HocKyEnum hocKi = HocKyEnum.fromValue(maLopHocPhan.split("-")[1]);
-        int maMonHoc = Integer.parseInt(maLopHocPhan.split("-")[2]);
+        int namHoc = Integer.parseInt(maLopHocPhan.substring(0, 4));
+        HocKyEnum hocKi = HocKyEnum.fromValue(maLopHocPhan.substring(4, 7));
+        int maMonHoc = Integer.parseInt(maLopHocPhan.substring(7, maLopHocPhan.length()));
+        System.out.println("Nam hoc: "+namHoc);
+        System.out.println("Hoc ki: "+hocKi);
+        System.out.println("Ma mon hoc: "+maMonHoc);
         Optional<HocPhan> hocPhanByHocPhanKey = hocPhanRepository.findHocPhanByHocPhanKey(namHoc, hocKi, maMonHoc);
         if(!hocPhanByHocPhanKey.isPresent()){
             throw new RuntimeException("Học phần không tồn tại");
@@ -46,8 +48,8 @@ public class LopHocPhanChoDangKyService {
             lopHocPhanChoDangKyDTO.setTenMonHoc(e.getLopHocPhanChoDangKyKey().getHocPhan().getHocPhanKey().getMonHoc().getTenMonHoc());
             lopHocPhanChoDangKyDTO.setLopHocDuKien(e.getLopHocPhanChoDangKyKey().getLopHocDuKien().getTenLopHocPhan());
             lopHocPhanChoDangKyDTO.setSiSoToiDa(e.getLopHocPhanChoDangKyKey().getHocPhan().getSoTinChiLyThuyet()+e.getLopHocPhanChoDangKyKey().getHocPhan().getSoTinChiThucHanh());
-
             lopHocPhanChoDangKyDTO.setSoLuongSinhVienDKHienTai(soLuongSinhVienHienTai);
+            lopHocPhanChoDangKyDTO.setMaMonHoc(e.getLopHocPhanChoDangKyKey().getHocPhan().getHocPhanKey().getMonHoc().getMaMonHoc());
             lopHocPhanChoDangKyDTOS.add(lopHocPhanChoDangKyDTO);
         });
         return lopHocPhanChoDangKyDTOS;

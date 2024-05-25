@@ -14,6 +14,7 @@ import vn.edu.iuh.fit.subjectservice.enums.HocKyEnum;
 import vn.edu.iuh.fit.subjectservice.keys.HocPhanKey;
 import vn.edu.iuh.fit.subjectservice.keys.LichDangKyHocPhanKey;
 import vn.edu.iuh.fit.subjectservice.repositories.HocPhanRepository;
+import vn.edu.iuh.fit.subjectservice.services.ChiTietLopHocPhanService;
 import vn.edu.iuh.fit.subjectservice.services.HocPhanServices;
 import vn.edu.iuh.fit.subjectservice.services.LichDangKyHocPhanServices;
 import vn.edu.iuh.fit.subjectservice.services.LopHocPhanChoDangKyService;
@@ -30,13 +31,14 @@ public class SubjectController {
     private HocPhanServices hocPhanServices;
     private DataResponse dataResponse;
     private LopHocPhanChoDangKyService lopHocPhanChoDangKyService;
+    private ChiTietLopHocPhanService chiTietLopHocPhanService;
     @GetMapping("/health")
     public ResponseEntity<String> health() {
         return ResponseEntity.ok("Subject service is healthy");
     }
 
 
-    @GetMapping("/dotdangky")
+    @GetMapping("/DangKyHocPhan/DotDangKy")
     public ResponseEntity<DataResponse> dotdangky() {
         try {
             List<LichDangKyHocPhanDTO> allLichDangKyHocPhan = lichDangKyHocPhanServices.getAllLichDangKyHocPhan();
@@ -52,7 +54,7 @@ public class SubjectController {
         }
     }
 
-    @GetMapping("/danhsachhocphan")
+    @GetMapping("/DangKyHocPhan/DotDangKy/DanhSachHocPhan")
     public ResponseEntity<DataResponse> danhsachhocphan(@RequestBody HocPhanTheoKyDTO hocPhanTheoKyDTO) {
         try {
             List<HocPhanDTO> hocPhanDTOS = hocPhanServices.danhSachHoocPhanTheoKyVaChuyeNganh(hocPhanTheoKyDTO.getNamHoc(),
@@ -68,7 +70,7 @@ public class SubjectController {
             return ResponseEntity.ok(dataResponse);
         }
     }
-    @GetMapping("/lopphanphanchodangky")
+    @GetMapping("/DangKyHocPhan/DotDangKy/DanhSachHocPhan/LopHocPhanChoDangKy")
     public ResponseEntity<DataResponse> lopphanphanchodangky(@RequestBody LopHPChoDKRequest lopHPChoDKRequest) {
         try {
             List<LopHocPhanChoDangKyDTO> lopHocPhanChoDangKyDTOS =
@@ -84,10 +86,10 @@ public class SubjectController {
             return ResponseEntity.ok(dataResponse);
         }
     }
-    @GetMapping("/chitietlophocphan")
+    @GetMapping("/DangKyHocPhan/DotDangKy/DanhSachHocPhan/LopHocPhanChoDangKy/ChiTietLopHocPhan")
     public ResponseEntity<DataResponse> chiTietLopHocPhan(@RequestBody ChiTietLopHocPhanRequest  chiTietLopHocPhan) {
+        chiTietLopHocPhanService.findAllByLopHocPhanAndNamHoc(chiTietLopHocPhan);
         try {
-
             dataResponse.setData(null);
             dataResponse.setMessage("Success");
             dataResponse.setCode(200);

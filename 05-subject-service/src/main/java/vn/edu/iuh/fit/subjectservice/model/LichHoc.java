@@ -50,4 +50,18 @@ public class LichHoc {
     private HinhThucHocEnum hinhThucHoc;
 
     private String ghiChu;
+
+    @Override
+    public String toString() {
+        return "LichHoc{" +
+                "ngayHoc=" + ngayHoc +
+                ", thoiGianBatDau=" + thoiGianBatDau +
+                ", thoiGianKetThuc=" + thoiGianKetThuc +
+                ", phongHoc=" + phongHoc.getMaPhongHoc() +
+                ", coso=" + coso +
+                ", giangVien=" + giangVien +
+                ", hinhThucHoc=" + hinhThucHoc +
+                ", ghiChu='" + ghiChu + '\'' +
+                '}';
+    }
 }

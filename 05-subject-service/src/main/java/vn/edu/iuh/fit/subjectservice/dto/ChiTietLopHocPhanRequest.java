@@ -13,5 +13,6 @@ import org.springframework.stereotype.Service;
 @Getter
 @Setter
 public class ChiTietLopHocPhanRequest {
-    private int maLopHocPhan;
+    private String maLopHocPhan;
+    private String maHocPhan;
 }

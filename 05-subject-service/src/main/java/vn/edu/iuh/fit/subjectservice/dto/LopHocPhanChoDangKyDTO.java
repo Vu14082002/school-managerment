@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 public class LopHocPhanChoDangKyDTO {
     private String maLopHocPhan;
     private String tenMonHoc;
+    private int maMonHoc;
     private String lopHocDuKien;
     private Integer siSoToiDa;
     private Integer soLuongSinhVienDKHienTai;
