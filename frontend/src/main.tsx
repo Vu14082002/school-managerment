@@ -2,6 +2,8 @@ import '@fontsource/inter';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import App from './App.tsx';
 import { store } from './app/store';
 import GlobalStyles from './components/globalStyles';
@@ -12,6 +14,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
             <GlobalStyles>
                 <App />
             </GlobalStyles>
+            <ToastContainer />
         </React.StrictMode>
     </Provider>,
 );

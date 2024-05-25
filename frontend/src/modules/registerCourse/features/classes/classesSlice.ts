@@ -42,6 +42,9 @@ const classesSlice = createSlice({
             state.error = null;
             state.isLoading = false;
         },
+        setClasses: (state, { payload }: { payload: IClass[] }) => {
+            state.classes = payload;
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(getClasses.pending, (state) => {
@@ -62,5 +65,5 @@ const classesSlice = createSlice({
 });
 
 export default classesSlice.reducer;
-export const { setSubject } = classesSlice.actions;
+export const { setSubject, setClasses } = classesSlice.actions;
 export { getClasses };

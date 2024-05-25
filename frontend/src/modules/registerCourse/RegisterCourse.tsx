@@ -10,7 +10,7 @@ import ClassesRegister from './components/classesRegister';
 import CoursesNeedRegister from './components/coursesNeedRegister';
 import { setSubject } from './features/classes/classesSlice';
 import { getRegisteredClasses } from './features/registeredClasses/registeredClassesSlice';
-import { getSubjects } from './features/subjects/subjectsSlice';
+import { getSubjects, setHocKyVaNamHoc } from './features/subjects/subjectsSlice';
 import style from './style.module.scss';
 
 const cx = classNames.bind(style);
@@ -31,6 +31,9 @@ const semesters = [
     { id: 'hk3_2020_2021', name: 'HK3 (2020-2021)' },
     { id: 'hk2_2020_2021', name: 'HK2 (2020-2021)' },
     { id: 'hk1_2020_2021', name: 'HK1 (2020-2021)' },
+    { id: 'hk3_2019_2020', name: 'HK3 (2019-2020)' },
+    { id: 'hk2_2019_2020', name: 'HK2 (2019-2020)' },
+    { id: 'hk1_2019_2020', name: 'HK1 (2019-2020)' },
 ];
 
 const types = [
@@ -50,6 +53,7 @@ const types = [
 
 const RegisterCourse = () => {
     const { user } = useAppSelector((state: RootState) => state.user);
+    console.log('🚀 ~ RegisterCourse ~ user:', user);
     const [typeChecked, setTypeChecked] = useState<string>('new_learning');
     const [semester, setSemester] = useState<string>('');
     const dispatch = useAppDispatch();
@@ -58,7 +62,7 @@ const RegisterCourse = () => {
     const handleChange = (_event: React.SyntheticEvent | null, newValue: string | null) =>
         newValue && setSemester(newValue);
 
-    // FIXME: Get MSSV, chuyenNganh
+    // FIXME: ChuyenNganh
     // TODO: Loại đăng ký
     useEffect(() => {
         dispatch(setSubject(undefined));
@@ -68,26 +72,25 @@ const RegisterCourse = () => {
         const source = axios.CancelToken.source();
 
         const getData = async () => {
-            const [hocKy, sNamHoc] = semester.split('_');
+            const [sHocKy, sNamHoc] = semester.split('_');
 
             const namHoc = +sNamHoc;
+            const hocKy = sHocKy.toUpperCase();
 
+            dispatch(setHocKyVaNamHoc({ hocKy, namHoc }));
             dispatch(
                 getSubjects({
                     data: {
-                        hocKy: hocKy.toUpperCase(),
+                        hocKy,
                         namHoc,
-                        // mssv: user.mssv,
-                        // chuyenNganh: user.chuyenNganh[0],
-                        mssv: 29,
+                        mssv: user.mssv,
                         chuyenNganh: 'CN01',
                     },
                     cancelToken: source.token,
                 }),
             );
 
-            // TODO Update mssv
-            dispatch(getRegisteredClasses({ data: { hocKy, namHoc, mssv: 20001575 }, cancelToken: source.token }));
+            dispatch(getRegisteredClasses({ data: { hocKy, namHoc, mssv: user.mssv }, cancelToken: source.token }));
         };
 
         getData();

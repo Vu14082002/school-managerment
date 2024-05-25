@@ -5,12 +5,16 @@ import { ICourseNeedRegister, IGetSubjects } from '../../interfaces';
 
 interface SubjectsState {
     subjects: ICourseNeedRegister[];
+    hocKy: string;
+    namHoc: number;
     isLoading: boolean;
     error: string | null;
 }
 
 const initialState: SubjectsState = {
     subjects: [],
+    hocKy: '',
+    namHoc: 0,
     isLoading: false,
     error: null,
 };
@@ -30,7 +34,15 @@ const getSubjects = createAsyncThunk(
 const subjectsSlice = createSlice({
     name: 'subjects',
     initialState,
-    reducers: {},
+    reducers: {
+        excludeRegisteredSubject: (state, { payload }: { payload: string }) => {
+            state.subjects = state.subjects.filter((subject) => subject.maHocPhan !== payload);
+        },
+        setHocKyVaNamHoc: (state, { payload }: { payload: { hocKy: string; namHoc: number } }) => {
+            state.hocKy = payload.hocKy;
+            state.namHoc = payload.namHoc;
+        },
+    },
     extraReducers: (builder) => {
         builder.addCase(getSubjects.pending, (state) => {
             state.isLoading = true;
@@ -50,4 +62,5 @@ const subjectsSlice = createSlice({
 });
 
 export default subjectsSlice.reducer;
+export const { excludeRegisteredSubject, setHocKyVaNamHoc } = subjectsSlice.actions;
 export { getSubjects };

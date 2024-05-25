@@ -3,6 +3,7 @@ import authReducer from '../features/auth/authSlice';
 import userReducer from '../features/user/userSlice';
 import classDetailsReducer from '../modules/registerCourse/features/classDetails/classDetailsSlice';
 import classesReducer from '../modules/registerCourse/features/classes/classesSlice';
+import registeredClassesReducer from '../modules/registerCourse/features/registeredClasses/registeredClassesSlice';
 import subjectsReducer from '../modules/registerCourse/features/subjects/subjectsSlice';
 
 export const store = configureStore({
@@ -12,6 +13,7 @@ export const store = configureStore({
         classes: classesReducer,
         user: userReducer,
         classDetails: classDetailsReducer,
+        registeredClasses: registeredClassesReducer,
     },
 });
 

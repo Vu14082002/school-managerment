@@ -41,6 +41,9 @@ const classDetails = createSlice({
         setClass: (state, { payload }: { payload: IClass | null }) => {
             state.classSelected = payload;
         },
+        setClassDetails: (state, { payload }: { payload: IClassDetail[] }) => {
+            state.classDetails = payload;
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(getClassDetails.pending, (state) => {
@@ -62,10 +65,11 @@ const classDetails = createSlice({
         builder.addCase(getClassDetails.rejected, (state, action) => {
             state.loading = false;
             state.error = action.error.message || 'Cannot get class details';
+            state.classDetails = [];
         });
     },
 });
 
 export default classDetails.reducer;
-export const { setClass } = classDetails.actions;
+export const { setClass, setClassDetails } = classDetails.actions;
 export { getClassDetails };

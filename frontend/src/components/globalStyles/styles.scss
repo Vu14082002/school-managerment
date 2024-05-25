@@ -2145,7 +2145,7 @@ body {
 }
 
 .container {
-    max-width: 1140px;
+    max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
     background-color: var(--background-color);
@@ -2181,4 +2181,34 @@ tr.active {
 
 .text-red {
     color: #ff0000;
+}
+
+.relative {
+    position: relative;
+}
+
+.spin-wrapper {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.spin {
+    animation: spin 1s linear infinite;
+    width: 30px;
+    height: 30px;
+    border: 4px solid #0c6fbe;
+    border-radius: 50%;
+    border-top-color: transparent;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }

@@ -16,7 +16,6 @@ const ClassesRegister = () => {
     const [classId, setClassId] = useState<string>('');
     const { classes, subject } = useAppSelector((state: RootState) => state.classes);
     const [showNotOverlap, setShowNotOverlap] = useState<boolean>(false);
-    console.log('🚀 ~ ClassesRegister ~ showNotOverlap:', showNotOverlap);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
