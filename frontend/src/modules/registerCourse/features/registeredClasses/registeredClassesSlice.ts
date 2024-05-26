@@ -31,7 +31,11 @@ const getRegisteredClasses = createAsyncThunk(
 const registeredClasses = createSlice({
     name: 'registeredClasses',
     initialState,
-    reducers: {},
+    reducers: {
+        setRegisteredClasses: (state, { payload }: { payload: IRegisteredClass[] }) => {
+            state.registeredClasses = payload;
+        },
+    },
     extraReducers: (builder) => {
         builder.addCase(getRegisteredClasses.pending, (state) => {
             state.loading = true;
@@ -57,4 +61,5 @@ const registeredClasses = createSlice({
 });
 
 export default registeredClasses.reducer;
+export const { setRegisteredClasses } = registeredClasses.actions;
 export { getRegisteredClasses };

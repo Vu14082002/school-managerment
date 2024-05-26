@@ -9,8 +9,8 @@ import ClassRegistered from './components/classRegistered';
 import ClassesRegister from './components/classesRegister';
 import CoursesNeedRegister from './components/coursesNeedRegister';
 import { setSubject } from './features/classes/classesSlice';
-import { getRegisteredClasses } from './features/registeredClasses/registeredClassesSlice';
-import { getSubjects, setHocKyVaNamHoc } from './features/subjects/subjectsSlice';
+import { getRegisteredClasses, setRegisteredClasses } from './features/registeredClasses/registeredClassesSlice';
+import { getSubjects, setHocKyVaNamHoc, setSubjects } from './features/subjects/subjectsSlice';
 import style from './style.module.scss';
 
 const cx = classNames.bind(style);
@@ -67,7 +67,11 @@ const RegisterCourse = () => {
     useEffect(() => {
         dispatch(setSubject(undefined));
 
-        if (!semester || !user) return;
+        if (!semester || !user) {
+            dispatch(setSubjects([]));
+            dispatch(setRegisteredClasses([]));
+            return;
+        }
 
         const source = axios.CancelToken.source();
 

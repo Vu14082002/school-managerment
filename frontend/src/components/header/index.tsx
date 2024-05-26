@@ -8,10 +8,13 @@ import { logout } from '../../features/auth/authSlice';
 import { AUTH_ENDPOINT } from '../../modules/auth/constants';
 import { token } from '../../utils';
 import styles from './styles.module.scss';
+import { RootState } from '../../app/store';
+import { useAppSelector } from '../../app/hooks';
 
 const cx = classNames.bind(styles);
 
 export default function Header() {
+    const { user } = useAppSelector((state: RootState) => state.user);
     const dispatch = useDispatch();
 
     const handleLogout = () => {
@@ -33,7 +36,7 @@ export default function Header() {
                     </Link>
                     <details className="dropdown">
                         <summary className="flex items-center gap-1">
-                            <span className="hover:text-blue-500 cursor-pointer ">Nguyễn Văn A</span>
+                            <span className="hover:text-blue-500 cursor-pointer ">{user?.hoTen}</span>
                             <i className="ri-arrow-down-s-fill"></i>
                         </summary>
                         <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 w-52">

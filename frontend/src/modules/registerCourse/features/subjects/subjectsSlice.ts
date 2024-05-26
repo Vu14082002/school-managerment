@@ -42,6 +42,9 @@ const subjectsSlice = createSlice({
             state.hocKy = payload.hocKy;
             state.namHoc = payload.namHoc;
         },
+        setSubjects: (state, { payload }: { payload: ICourseNeedRegister[] }) => {
+            state.subjects = payload;
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(getSubjects.pending, (state) => {
@@ -62,5 +65,5 @@ const subjectsSlice = createSlice({
 });
 
 export default subjectsSlice.reducer;
-export const { excludeRegisteredSubject, setHocKyVaNamHoc } = subjectsSlice.actions;
+export const { excludeRegisteredSubject, setHocKyVaNamHoc, setSubjects } = subjectsSlice.actions;
 export { getSubjects };
